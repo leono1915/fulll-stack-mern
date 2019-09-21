@@ -1,0 +1,22 @@
+{
+  "name": "grap-proyecto",
+  "version": "1.0.0",
+  "description": "GraphQl",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./index.js --exec babel-node -e js"
+  },
+  "author": "leono1915",
+  "license": "ISC",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "express": "^4.17.1",
+    "express-graphql": "^0.9.0",
+    "graphql": "^14.5.6",
+    "graphql-import": "^0.7.1",
+    "graphql-tools": "^4.0.5",
+    "nodemon": "^1.19.2"
+  }
+}
