@@ -18,8 +18,8 @@ class Cliente{
 
 export const resolvers ={
     Query:{
-        getClientes:(root,{limit})=>{
-            return Clientes.find({}).limit(limit);
+        getClientes:(root,{limite,offset})=>{
+            return Clientes.find({}).limit(limite).skip(offset);
         },
         getCliente:(root,{id})=>{
             return new Promise((resolve,object)=>{
@@ -28,6 +28,15 @@ export const resolvers ={
                     else resolve(cliente)
                 });
             });
+    },
+    totalClientes:(root)=>{
+        return new Promise((resolve,object)=>{
+            Clientes.countDocuments({},(error,count)=>{
+                if(error) rejects(error)
+                else resolve(count);
+                
+            })
+        })
     }
     },
     Mutation:{
@@ -39,7 +48,7 @@ export const resolvers ={
             apellido: input.apellido,
             domicilio:input.domicilio,
             rfc:input.rfc,
-            email: input.email,
+            emails: input.emails,
             tipo: input.tipo,
             pedidos: input.pedidos
 

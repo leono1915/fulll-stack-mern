@@ -5,7 +5,7 @@
           apellido:String
           domicilio:String
           rfc:String
-          email:String
+          emails:[Email]
           tipo:TipoCliente
           pedidos:[pedido]
       }     
@@ -17,7 +17,9 @@
       }
       type Query{
           getCliente(id:ID): Cliente
-          getClientes(limit:Int):[Cliente]
+          getClientes(limite:Int,offset:Int):[Cliente]
+          totalClientes:String
+        
       }
       type pedido{
           descripcion:String
@@ -37,7 +39,7 @@
         apellido:String!
         domicilio:String
         rfc:String
-        email:String
+        emails:[emailInput]
         tipo:TipoCliente
         pedidos:[pedidoInput]
 

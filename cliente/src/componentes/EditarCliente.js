@@ -1,50 +1,34 @@
 import React, { Component,Fragment } from 'react'
-
+import {CLIENTE_QUERY} from '../queries';
+import {Query} from 'react-apollo';
+import FormularioEditarCliente from './FormularioEditarCliente';
 export default class EditarCliente extends Component {
-    state={ }
+    state={
+       
+     }
     render() {
+
+        const {id}=this.props.match.params;
+        console.log(id)
         return (
             <Fragment>
                <h2 className="text-center">Editar cliente</h2>  
-               <div className="row justify-content-center">
-               <form className="col-md-8 m-3" >
-      <div className="form-row">
-          <div className="form-group col-md-6">
-              <label>Nombre</label>
-              <input type="text" className="form-control" placeholder="Nombre"/>
-          </div>
-          <div className="form-group col-md-6">
-              <label>Apellido</label>
-              <input type="text" className="form-control" placeholder="Apellido"/>
-          </div>
-      </div>
-      <div className="form-row">
-          <div className="form-group col-md-6">
-              <label>Empresa</label>
-              <input type="text" className="form-control" placeholder="Empresa"/>
-          </div>
-          <div className="form-group col-md-6">
-              <label>Email</label>
-              <input type="email" className="form-control" placeholder="Email" />
-          </div>
-      </div>
-      <div className="form-row">
-          <div className="form-group col-md-6">
-              <label>Edad</label>
-              <input type="text" className="form-control" placeholder="Edad"/>
-          </div>
-          <div className="form-group col-md-6">
-              <label>Tipo Cliente</label>  
-              <select className="form-control">
-                  <option value="">Elegir...</option>
-                  <option value="PREMIUM">PREMIUM</option>
-                  <option value="BASICO">BÁSICO</option>
-              </select>
-          </div>
-      </div>
-      <button type="submit" className="btn btn-success float-right">Guardar Cambios</button>
-  </form> 
-  </div>
+             <div className="row justify-content-center">
+             <Query query={CLIENTE_QUERY} variables={{id}}>
+                {({loading,error,data,refetch})=>{
+                    if(loading) return 'cargando..';
+                    if(error) return `Error ${error.message}`;
+
+                    return (
+                        <FormularioEditarCliente
+                        cliente={data.getCliente}
+                        refetch={refetch}
+                        />
+                    )
+                }}
+              </Query>
+             </div>
+
             </Fragment>
         )
     }

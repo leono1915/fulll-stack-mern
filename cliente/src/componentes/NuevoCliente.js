@@ -7,32 +7,78 @@ export default class NuevoCliente extends Component {
            nombre:'',
            apellido:'',
            domicilio:'',
-           email:'',
            rfc:'',
            tipo:''
-       } 
+       } ,
+       error:false,
+       emails:[]
+    }
+    leerCampo =(i)=>(e)=>{
+       //console.log(i+e.target.value)
+       const nuevoEmail=this.state.emails.map(function(email,index) {
+           if(i!==index) return email;
+           return{
+               ...email,
+               email:e.target.value
+           }
+       });
+        this.setState({
+            emails:nuevoEmail
+        })
+    }
+    nuevoCampo=()=>{
+       // console.log('click');
+       this.setState({
+           emails:this.state.emails.concat([{email:''}])
+       });
+
+    }
+    eliminarCampo=(i)=>()=>{
+        console.log(i);
+        this.setState({
+           emails:this.state.emails.filter(
+               function (email,index) 
+               {   //console.log(" estt"+index+" "+i+" "+i!==index)
+                   return i !==index})
+        })
     }
     render() {
+        const {error}=this.state;
+           let respuesta=(error) ?<p className="alert alert-danger p-3 text-center">Todos los campos son obligatorios</p>:'';
         return (
             <Fragment>
             <h2 className="text-center">Nuevo cliente</h2>  
+            {respuesta}
             <div className="row justify-content-center">
 
-            <Mutation  mutation={NUEVO_CLIENTE} >
+            <Mutation  mutation={NUEVO_CLIENTE} 
+                       onCompleted={()=>this.props.history.push('/')}
+            >
                 
              {crearCliente=>(   
             <form className="col-md-8 m-3" 
              onSubmit={e=>{
                  e.preventDefault();
-                 const{nombre,apellido,domicilio,email,rfc,tipo}=this.state.cliente;
+                 const{nombre,apellido,domicilio,rfc,tipo}=this.state.cliente;
+                 const {emails}=this.state;
+                 console.log(emails)
+                    if(nombre===''||apellido===''||domicilio===''||rfc===''||tipo===''){
+                        this.setState({
+                            error:true
+                        });
+                        return;
+                    }
+                    this.setState({
+                        error:false
+                    });
 
                  const input = {
                     nombre,
                     apellido,
                     domicilio,
-                    email,
                     rfc,
-                    tipo
+                    tipo,
+                    emails
                  }
                  crearCliente({
                      variables:{input}
@@ -70,7 +116,7 @@ export default class NuevoCliente extends Component {
        </div>
    </div>
    <div className="form-row">
-       <div className="form-group col-md-6">
+       <div className="form-group col-md-12">
            <label>Domicilio</label>
            <input type="text" className="form-control" placeholder="Domicilio"
             onChange={e=>{
@@ -83,18 +129,21 @@ export default class NuevoCliente extends Component {
             }}
            />
        </div>
-       <div className="form-group col-md-6">
-           <label>Email</label>
-           <input type="email" className="form-control" placeholder="Email" 
-            onChange={e=>{
-                this.setState({
-                    cliente:{
-                        ...this.state.cliente,
-                        email:e.target.value
-                    }
-                })
-            }}
-           />
+       {this.state.emails.map((input,index )=> (
+              <div key={index} className="form-group col-md-12"> 
+                    <label > Correo :{index+1} </label>
+                    <div className="input-group">
+                    <input type="email" placeholder="email" className="form-control"
+                     onChange={this.leerCampo(index,input)}
+                    /> 
+                    <div className="input-group-append">
+                    <button  type="button" onClick={this.eliminarCampo(index)} className="btn btn-danger">x Eliminar</button>
+                    </div>
+                    </div>
+              </div>
+             ))}
+       <div className="form-group d-flex justify-content-center col-md-12">
+         <button type="button" className="btn btn-warning" onClick={this.nuevoCampo}  >+ Agregar email </button>
        </div>
    </div>
    <div className="form-row">
