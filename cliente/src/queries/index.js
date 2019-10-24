@@ -46,3 +46,31 @@ query ConsultarClientes($id:ID){
 
 }`
 
+
+export const PRODUCTOS_QUERY =gql`
+
+ query obtenerProductos( $limite: Int, $offset: Int) {
+
+    obtenerProductos(limite: $limite, offset: $offset){
+        id
+        nombre
+        precio
+        stock
+        
+    totalClientes
+     }
+ 
+ }`
+
+
+export const PRODUCTO_QUERY =gql`
+query ConsultarProductos($id:ID){
+    obtenerProducto(id: $id){
+        id
+        nombre
+        precio
+        stock
+    }
+
+}`
+

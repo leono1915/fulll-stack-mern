@@ -1,9 +1,9 @@
 import React ,{Fragment,Component} from 'react';
 import {Query,Mutation} from 'react-apollo';
 import {Link} from 'react-router-dom';
-import {CLIENTES_QUERY }from '../queries';
-import {ELIMINAR_CLIENTE }from '../mutations';
-import Paginador from './Paginador';
+import {CLIENTES_QUERY }from '../../queries';
+import {ELIMINAR_CLIENTE }from '../../mutations';
+import Paginador from '../Paginador';
 class Contactos extends Component{
     limite=10;
     state={

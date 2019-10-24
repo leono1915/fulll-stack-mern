@@ -1,19 +1,6 @@
 import mongoose from 'mongoose';
-import {Clientes} from './db';
+import {Clientes,Productos} from './db';
 import { rejects } from 'assert';
-
-class Cliente{
-    constructor(id,{nombre,apellido,domicilio,email,tipo,pedidos}){
-              this.id=id;
-              this.nombre=nombre;
-              this.apellido=apellido;
-              this.domicilio=domicilio;
-              this.email=email;
-              this.tipo=tipo;
-              this.pedidos=pedidos;
-    }
-
-}
 
 
 export const resolvers ={
@@ -37,7 +24,27 @@ export const resolvers ={
                 
             })
         })
-    }
+    },
+    obtenerProductos:(root,{limite,offset})=>{
+        return Productos.find({}).limit(limite).skip(offset);
+    },
+    obtenerProducto:(root,{id})=>{
+        return new Promise((resolve,object)=>{
+            Productos.findById(id,(error,Producto)=>{
+                if(error) rejects(error)
+                else resolve(Producto)
+            });
+        });
+    },
+    totalProductos:(root)=>{
+        return new Promise((resolve,object)=>{
+            Productos.countDocuments({},(error,count)=>{
+                if(error) rejects(error)
+                else resolve(count);
+                
+            })
+        })
+    },
     },
     Mutation:{
         crearCliente :(root,{input})=>{
@@ -77,6 +84,36 @@ export const resolvers ={
         eliminarCliente:(root,{id})=>{
             return new Promise((resolve,object)=>{
                 Clientes.findOneAndRemove({_id:id},(error)=>{
+                    if(error) rejects (error)
+                    else resolve("registro eliminado correctamente")
+                });
+            });
+        },
+        nuevoProducto:(root,{input})=>{
+            const nuevoProducto = new Productos({
+                nombre:input.nombre,
+                precio:input.precio,
+                stock:input.stock
+            });
+            nuevoProducto.id=nuevoProducto._id;
+            return new Promise((resolve,object)=>{
+                nuevoProducto.save((error)=>{
+                    if(error) rejects(error)
+                else resolve(nuevoProducto) 
+                })
+            })
+        },
+        actualizarProducto :(root,{input})=>{
+            return new Promise((resolve,object)=>{
+                Productos.findOneAndUpdate({ _id:input.id }, input ,{new:true}, (error,Producto)=>{
+                    if(error) rejects(error)
+                    else resolve(Producto)
+                });
+            } );
+        },
+        eliminarProducto:(root,{id})=>{
+            return new Promise((resolve,object)=>{
+                Productos.findOneAndRemove({_id:id},(error)=>{
                     if(error) rejects (error)
                     else resolve("registro eliminado correctamente")
                 });
