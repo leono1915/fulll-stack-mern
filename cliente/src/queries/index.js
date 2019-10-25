@@ -57,8 +57,9 @@ export const PRODUCTOS_QUERY =gql`
         precio
         stock
         
-    totalClientes
+    
      }
+     totalProductos
  
  }`
 

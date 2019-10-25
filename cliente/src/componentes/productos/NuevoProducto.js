@@ -2,11 +2,20 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import React, { Component ,Fragment} from 'react'
 import {NUEVO_PRODUCTO} from '../../mutations';
 import {Mutation} from 'react-apollo';
-export default class Productos extends Component{
+
+const initialState={
+    nombre:'',
+    precio:'',
+    stock:''
+}
+export default class NuevoProducto extends Component{
     state={
-        nombre:'',
-        precio:'',
-        stock:''
+        ...initialState
+    }
+    limpiarState=()=>{
+        this.setState({
+            ...initialState
+        })
     }
     actualizarState=e=>{
         this.setState({
@@ -21,7 +30,8 @@ export default class Productos extends Component{
     crearNuevoProducto=(e,nuevoProducto)=>{
         e.preventDefault();
         nuevoProducto().then(data=>{
-            console.log(data)
+           this.limpiarState();
+           this.props.history.push("/productos");
         })
     }
     render(){
