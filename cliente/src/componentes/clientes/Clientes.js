@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import {CLIENTES_QUERY }from '../../queries';
 import {ELIMINAR_CLIENTE }from '../../mutations';
 import Paginador from '../Paginador';
+import Exito from '../alertas/Exito';
 class Contactos extends Component{
     limite=10;
     state={
@@ -12,6 +13,10 @@ class Contactos extends Component{
                 paginaActual:1,
                
             },
+            alerta:{
+                mostrar:false,
+                mensaje:''
+            }
            
         }
     
@@ -35,6 +40,8 @@ class Contactos extends Component{
          })
     }
     render(){
+        const {alerta:{mostrar,mensaje}}=this.state;
+        const alerta=(mostrar)?<Exito mensaje={mensaje}/>:'';
         return(
     
      <Query query={CLIENTES_QUERY}   pollInterval={100} variables={{limite:this.limite,
@@ -47,6 +54,7 @@ class Contactos extends Component{
              return (
                 <Fragment>
                      <h2 className="text-center "> Listado Clientes</h2>
+                     {alerta}
                  <ul className="list-group mt-4">
                      
                          { data.getClientes.map(item=>{
@@ -58,19 +66,44 @@ class Contactos extends Component{
                                          {item.nombre} {item.apellido}
                                      </div>
                                      <div className="col-md-4 d-flex justify-content-end" >
-                                          
+                                         <Link to={`/pedidos/nuevo/${item.id}`} className="btn btn-primary d-block d-md-inline-block mr-2"
+                                            >
+                                                &#43;Nuevo Pedido
+                                            </Link>
                                             <Link to={`/editar/${item.id}`} className="btn btn-success d-block d-md-inline-block mr-2"
                                             >
                                                 Editar
                                             </Link>
-                                          <Mutation mutation={ELIMINAR_CLIENTE}>
+                                          <Mutation mutation={ELIMINAR_CLIENTE}
+                                             onCompleted={(data)=>{
+                                                this.setState({
+                                                   alerta:{
+                                                       mostrar:true,
+                                                       mensaje:data.eliminarCliente
+                                                   } 
+                                                },()=>{
+                                                   setTimeout(() => {
+                                                       this.setState({
+                                                           alerta:{
+                                                               mostrar:false,
+                                                               mensaje:''
+                                                           } 
+                                                        })
+                                                    }, 3000);  
+                                                })
+                                               
+                                              }}
+                                          >
                                            {eliminarCliente=>(
                                           
                                           <button type="button" className="btn btn-danger d-block d-md-inline-block"
                                             onClick={()=>{
+                                                if(window.confirm('Desea eliminar este registro?')){
+                                               
                                                 eliminarCliente({
                                                     variables:{id}
                                                 })
+                                               }
                                             }}
                                             
                                             >

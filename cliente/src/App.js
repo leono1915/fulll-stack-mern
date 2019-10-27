@@ -9,6 +9,7 @@ import {BrowserRouter as Router ,Route, Switch} from 'react-router-dom';
 import EditarCliente from './componentes/clientes/EditarCliente'
 import NuevoCliente from './componentes/clientes/NuevoCliente'
 import NuevoProducto from './componentes/productos/NuevoProducto'
+import NuevoPedido from './componentes/pedidos/NuevoPedido'
 import Productos from './componentes/productos/Productos'
 import EditarProducto from './componentes/productos/EditarProducto'
 const client = new ApolloClient({
@@ -35,10 +36,11 @@ function App (){
          <Switch>
              <Route exact path="/" component={Clientes}/>
              <Route exact path="/editar/:id" component={EditarCliente}/>
-             <Route exact path="/nuevo" component={NuevoCliente}/>
+             <Route exact path="/clientes/nuevo" component={NuevoCliente}/>
              <Route exact path="/productos/nuevo" component={NuevoProducto}/>
              <Route exact path="/productos" component={Productos}/>
              <Route exact path="/productos/editar/:id" component={EditarProducto}/>
+             <Route exact path="/pedidos/nuevo/:id" component={NuevoPedido}/>
          </Switch>
      </div>
      </Fragment>

@@ -19,7 +19,25 @@ export default class Productos extends Component{
            
         },
     }
-
+    paginaAnterior =()=>{
+        this.setState({
+            paginator:{
+                offset:this.state.paginator.offset-this.limite,
+                paginaActual:this.state.paginator.paginaActual-1,
+             
+            }
+        })
+    }
+    paginaSiguiente =()=>{
+      
+         this.setState({
+             paginator:{
+                 offset:this.state.paginator.offset+this.limite,
+                 paginaActual:this.state.paginator.paginaActual+1,
+             
+             }
+         })
+    }
     render(){
         const {alerta:{mostrar,mensaje}}=this.state;
         const alerta=(mostrar)?<Exito mensaje={mensaje}/>:'';
