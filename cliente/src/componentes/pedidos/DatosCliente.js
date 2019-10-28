@@ -12,7 +12,7 @@ const DatosCliente =({id})=>{
                 {({loading,data,error,startPolling,stopPolling})=>{
                     if(loading)return 'cargando';
                     if(error) return `Error${error.message}`;
-                    console.log(data)
+                    
                     const{nombre,
                         apellido,
                         domicilio,
