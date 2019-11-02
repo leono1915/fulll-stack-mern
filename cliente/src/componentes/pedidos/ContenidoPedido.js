@@ -2,6 +2,7 @@ import React, { Component,Fragment } from 'react'
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import Resumen from './Resumen';
+import GenerarPedido from './GenerarPedido';
 
 class ContenidoPedido extends Component{
     state={
@@ -74,6 +75,11 @@ class ContenidoPedido extends Component{
            <p className="font-weight-bold float-right mt-3">
             Total: <span className="font-weight-normal"> ${this.state.total}</span>
            </p>
+
+           <GenerarPedido productos={this.state.productos}
+                          total={this.state.total}
+                          idCliente={this.props.id}
+           /> 
            </Fragment>
         )
     }

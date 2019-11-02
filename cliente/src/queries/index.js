@@ -13,9 +13,6 @@ import gql from 'graphql-tag';
         domicilio
         rfc
         tipo
-        pedidos{
-            precio
-        }
         emails{
             email
         }
@@ -36,9 +33,6 @@ query ConsultarClientes($id:ID){
         domicilio
         rfc
         tipo
-        pedidos{
-            precio
-        }
         emails{
             email
         }

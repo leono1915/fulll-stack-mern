@@ -7,7 +7,6 @@
           rfc:String
           emails:[Email]
           tipo:TipoCliente
-          pedidos:[pedido]
       } 
       type Producto{
           id:ID
@@ -17,6 +16,19 @@
       }    
       type Email{
           email:String
+      }
+      type Pedido{
+          id:ID
+          pedido:[PedidoProducto]
+          total:Float
+          fecha:String
+          cliente:ID
+          estado:EstadoPedido
+      }
+      type PedidoProducto{
+          id:ID
+          cantidad:Int
+
       }
       input emailInput{
           email:String
@@ -30,17 +42,27 @@
           totalProductos:String
         
       }
-      type pedido{
-          descripcion:String
-          precio:Float
+      input PedidoInput{
+          id:ID
+          pedido:[PedidoProductoInput]
+          total:Float
+          fecha:String
+          cliente:ID
+          estado:EstadoPedido
       }
-      input pedidoInput{
-          descripcion:String
-          precio:Float
+      input PedidoProductoInput{
+          id:ID
+          cantidad:Int
+
       }
       enum TipoCliente{
           BASICO
           PREMIUM
+      }
+      enum EstadoPedido{
+          PENDIENTE
+          CANCELADO
+          COMPLETADO
       }
       input ClienteInput{
         id:ID
@@ -50,7 +72,7 @@
         rfc:String
         emails:[emailInput]
         tipo:TipoCliente
-        pedidos:[pedidoInput]
+        pedidos:[PedidoInput]
 
       }  
         input ProductoInput{
@@ -69,6 +91,9 @@
           nuevoProducto(input:ProductoInput): Producto
           actualizarProducto(input:ProductoInput):Producto
           eliminarProducto(id:ID):String
+
+          #new order
+          nuevoPedido(input:PedidoInput):Pedido
 
       }
 

@@ -49,7 +49,7 @@ class Contactos extends Component{
       }}>
          {({loading,error,data,startPolling,stopPolling})=>{
              if(loading) return "cargando";
-             if(error) return `ERROR:{error.message}`;
+             if(error) return `ERROR:${error.message}`;
              console.log(data);
              return (
                 <Fragment>

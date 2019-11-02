@@ -36,8 +36,16 @@
                  <td>{e.nombre}</td>
                  <td>{e.precio}</td>
                  <td>{e.stock}</td>
-                 <td><input type="number" className="form-control"
-                 onChange={e=>props.actualizarCantidad(e.target.value,index)}
+                 <td><input min="1" type="number" className="form-control"
+                 onChange={el=>{
+                     if(el.target.value>e.stock){
+                        el.target.value=0;
+                        
+                     }else if(el.target.value<0){
+                        el.target.value=0;
+                     }
+                     props.actualizarCantidad(el.target.value,index)
+                 }}
                  /></td>
                  <td><button className="btn btn-danger"
                   onClick={er=>{return(props.eliminarProducto(e.id))}}

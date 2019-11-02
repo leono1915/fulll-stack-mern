@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import {Clientes,Productos} from './db';
+import {Clientes,Productos,Pedidos} from './db';
 import { rejects } from 'assert';
 
 
@@ -118,8 +118,34 @@ export const resolvers ={
                     else resolve("registro eliminado correctamente")
                 });
             });
+        },                                                               /*       here start mutation to crud of pedidos*/
+        nuevoPedido:(root,{input})=>{
+           const nuevoPedido=new Pedidos({
+               pedido:input.pedido,
+               total:input.total,
+               fecha:new Date(),
+               cliente:input.cliente,
+               estado:'PENDIENTE'
+           });
+           nuevoPedido.id=nuevoPedido._id;
+           return new Promise((resolve,object)=>{
+
+            // resolver recorrer y actualizar la cantidad de productos
+            input.pedido.forEach(pedido => {
+                   Productos.updateOne({_id:pedido.id},
+                    {"$inc":
+                            {"stock":-pedido.cantidad}
+                    },function(error){
+                        if(error) return new Error(error)
+                    }
+                    )
+            });
+               nuevoPedido.save((error)=>{
+                   if(error) rejects(error)
+                   else resolve(nuevoPedido)
+               })
+           });
         }
-        
     }
 }
 
