@@ -69,3 +69,22 @@ query ConsultarProductos($id:ID){
 
 }`
 
+export const PEDIDO_QUERY= gql `
+
+query consultarPedidos($cliente:String){
+      obtenerPedidos(cliente:$cliente){
+       
+        id
+        pedido{
+            id
+            cantidad
+        } 
+        total
+        fecha
+        cliente
+        estado 
+        
+      }
+}
+`
+

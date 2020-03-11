@@ -70,6 +70,10 @@ class Contactos extends Component{
                                             >
                                                 &#43;Nuevo Pedido
                                             </Link>
+                                            <Link to={`/pedidos/${item.id}`} className="btn btn-warning d-block d-md-inline-block mr-2"
+                                            >
+                                                &#43;Ver Pedidos
+                                            </Link>
                                             <Link to={`/editar/${item.id}`} className="btn btn-success d-block d-md-inline-block mr-2"
                                             >
                                                 Editar
